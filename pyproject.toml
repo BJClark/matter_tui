@@ -1,0 +1,10 @@
+[project]
+name = "matter-tui"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "python-matter-server>=8.1.1",
+    "textual>=6.7.1",
+]
