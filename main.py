@@ -3,17 +3,38 @@ from textual.containers import Container, Horizontal, Vertical
 from textual.widgets import Header, Footer, Static, DataTable, Button, Label
 from textual.binding import Binding
 
+# Test data - will be replaced by real Matter client later
+TEST_DEVICES = [
+    {"node_id": "1", "name": "Living Room Light", "type": "Bulb", "status": "Online"},
+    {"node_id": "2", "name": "Front Door Lock", "type": "Lock", "status": "Online"},
+    {"node_id": "3", "name": "Thermostat", "type": "Climate", "status": "Offline"},
+]
+
 
 class MatterDeviceTable(Static):
     """Widget to display Matter devices."""
 
     def compose(self) -> ComposeResult:
-        yield Label("Matter Devices", classes="section-title")
+        total = len(TEST_DEVICES)
+        online = sum(1 for d in TEST_DEVICES if d["status"] == "Online")
+        offline = total - online
+
+        yield Label(
+            f"Matter Devices ({total} total, {online} online, {offline} offline)",
+            classes="section-title"
+        )
+
         table = DataTable()
         table.add_columns("Node ID", "Name", "Type", "Status")
-        table.add_row("1", "Living Room Light", "Bulb", "Online")
-        table.add_row("2", "Front Door Lock", "Lock", "Online")
-        table.add_row("3", "Thermostat", "Climate", "Offline")
+
+        for device in TEST_DEVICES:
+            table.add_row(
+                device["node_id"],
+                device["name"],
+                device["type"],
+                device["status"]
+            )
+
         yield table
 
 
